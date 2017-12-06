@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>jquery</title>
+
+<!-- 
+<script src="http://code.jquery.com/jquery-3.2.1.js" />
+ -->
+<script src="/js/jquery-3.2.1.js" />
+
+
+<script type="text/javascript">
+	var output_content="Hello!";
+	
+	$(document).ready(function(){
+	  $("#btn1").click(function(){
+		$("#output").html(output_content);
+	  });
+	});
+</script>
+
+</head>
+<body>
+
+	<div>
+		<h3 th:text="${message}" />
+	</div>
+	<br/>
+	<div>
+		<button id="btn1" type="button">click me</button>
+	</div>
+	<br/>
+	<div>
+		<fieldset>
+			<legend>output</legend>
+			<span id="output">output here</span>
+		</fieldset>
+	</div>
+</body>
+</html>
