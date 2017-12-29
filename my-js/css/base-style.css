@@ -1,0 +1,36 @@
+body{
+  text-align:center
+}
+
+.center {
+  text-align:center;
+}
+
+.nofill {
+  padding: 0px; margin: 0px
+}
+
+div{
+    word-wrap:break-word;
+}
+
+div.center{
+  margin：auto;
+}
+
+div.root-container{
+  margin: 0 auto;
+  //border:1px solid #000;
+  width:800px;
+}
+
+div#navigation{
+  text-align:right;
+}
+
+button {
+  height: 30px;
+  width: 100px;
+  border: 1px solid #ccc!important;
+  border-radius: 5px!important
+}

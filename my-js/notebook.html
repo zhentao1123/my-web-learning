@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>notebook</title>
+
+    <link rel="stylesheet" type="text/css" href="css/base-style.css"/>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/base-js.js"></script>
+    <script src="js/notebook.js"></script>
+
+    <style type="text/css">
+        #notebook-body{
+            padding: 10px;
+            text-align:center;
+            margin: 0 auto;
+        }
+        #notebook-body div.record{
+            border-bottom: 1px solid #666;
+        }
+        #notebook-body div.title{
+            text-align: center;
+            font-size: 16px;
+            color: #666;
+            padding: 5px;
+        }
+        #notebook-body div.time{
+            text-align: center;
+            font-size: 12px;
+            color: #666;
+        }
+        #notebook-body div.content{
+            text-align: left;
+            font-size: 16px;
+            color: #666;
+            padding: 5px;
+        }
+        #notebook-body div.operate{
+            text-align: right;
+        }
+        #notebook-body span.span-opt{
+            margin: 0px;
+            font-size: 16px;
+            color: #666;
+        }
+        div#notebook-create{
+            padding-left: 10px;
+            padding-right: 10px;
+            text-align: left;
+        }
+        div#notebook-save-area{
+            margin: 10px;
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #aaa;
+        }
+        div#empty{
+            text-align: center;
+            font-size: 16px;
+            color: #666;
+        }
+        span.span-opt{
+            margin: 0px;
+            font-size: 16px;
+            color: #666;
+        }
+        div.sa-line{
+            margin-bottom: 5px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+
+    </script>
+
+</head>
+
+<body>
+
+<div class="root-container">
+    
+    <div class="center">
+        <h2>Notebook Page</h2>
+    </div>
+
+    <div id="navigation">
+        <span id="link-back" onclick="goBack();">Back</span>
+    </div>
+
+    <div id="notebook-create">
+        <span class="span-opt" id="span-create">Create</span>
+    </div>
+    
+    <div id="notebook-save-area" style="display: none">
+        <div class="sa-line" style="text-align: center">Save</div>
+        <div class="sa-line">Title : </div><input type="hidden" id="input-id"/>
+        <div class="sa-line"><input type="text" id="input-title"/></div>
+        <div class="sa-line">Content : </div>
+        <div class="sa-line"><textarea id="input-content" rows="3" cols="50"></textarea></div>
+        <div class="sa-line"><span class="span-opt" id="span-submit">Submit</span></div>
+    </div>
+
+    <div id="notebook-body"></div>
+    
+</div>
+
+    <script type="text/javascript">
+        var nbDao = new NotebookDao(localStorage, "notebook");
+        reloadList();
+
+        function reloadList(){
+            var dataList = nbDao.getAll();
+            if(dataList.length==0){
+                $("#notebook-body").html("<div id='empty'>Empty</div>");
+            }else{
+                $("#notebook-body").html("");
+            }
+            dataList.forEach(function(value){
+                var itemView = '<div class="record"><div class="title">'+value.title+'</div><div class="time">'+value.time+'</div><div class="content">'+value.content+'</div><div class="operate"><span class="span-opt" onclick="showModify('+value.id+',\''+value.title+'\',\''+value.content+'\');">Edit</span><span class="span-opt" style="margin-left:10px" onclick="remove('+value.id+');">Delete</span></div></div>';
+                $("#notebook-body").append(itemView);
+            });
+        }
+        function showCreate(createAreaId){
+            
+        };
+        function showModify(id, title, content){
+            $("#notebook-create").css("display", "none");
+            $("#notebook-save-area").css("display", "block");
+            $("#input-id").val(id);
+            $("#input-title").val(title);
+            $("#input-content").val(content);
+        };
+        function create(title, content){
+            var id = nbDao.maxId()+1;
+            nbDao.create(new Record(id, title, content, new Date().Datetime()));
+        };
+        function modify(id, title, content){
+             nbDao.modify(id, new Record(id, title, content, new Date().Datetime()));
+        };
+        function remove(id){
+            nbDao.delete(id);
+            reloadList();
+        };
+        
+        //-----------------------------------------------
+        
+        //btn-create
+        $("#span-create").click(function(){
+            $("#notebook-create").css("display", "none");
+            $("#notebook-save-area").css("display", "block");
+            $("#input-id").val("");
+            $("#input-title").val("");
+            $("#input-content").val("");
+        });
+        
+        //span-submit
+        $("#span-submit").click(function(){
+            //check
+            if($("#input-title").val()=="" || $("#input-content").val()==""){
+                alert("title or content could not be Empty!");
+                return;
+            }
+            
+            if($("#input-id").val()==""){
+                //create
+                create($("#input-title").val(), $("#input-content").val());
+            }else{
+                //modify
+                modify($("#input-id").val(), $("#input-title").val(), $("#input-content").val())
+            }
+            
+            reloadList();
+            
+            $("#notebook-create").css("display", "block");
+            $("#notebook-save-area").css("display", "none");
+        });
+    </script>
+
+</body>
+
+</html>

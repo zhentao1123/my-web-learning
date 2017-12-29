@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>module</title>
+
+    <link rel="stylesheet" type="text/css" href="css/base-style.css"/>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/base-js.js"></script>
+
+    <style type="text/css">
+
+    </style>
+
+    <script type="text/javascript">
+        //1.Object方式（不推荐）
+        var t1 = new Object({
+            _count: 0,
+            m1: function() {
+                alert(this._count);
+            }
+        });
+
+        var t11 = {
+            _count: 0,
+            m1: function() {
+                alert(this._count);
+            }
+        };
+
+        //2.function方式
+        function T2(count) {
+            this._count = count;
+            this.m1 = function() {
+                alert(this._count);
+            };
+        }
+        var t2 = new T2(2);
+
+        //3.原型方式（不推荐）
+        function T3() {}
+        T3.prototype._count = 3;
+        T3.prototype.m1 = function() {
+            alert(T3.prototype._count);
+        };
+        var t3 = new T3();
+
+        //4.工厂方式
+        function T4(count) {
+            var t4 = new Object;
+            t4._count = count;
+            t4.m1 = function() {
+                alert(this._count);
+            };
+            return t4;
+        }
+        var t4 = T4(4); //不要new
+
+        //5.混合工厂方式
+        function T5(count) {
+            var t5 = new Object();
+            t5._count = count;
+            t5.m1 = function() {
+                alert(this._count);
+            };
+            return t5;
+        }
+        var t5 = new T5(5); //需要new
+
+    </script>
+
+</head>
+
+<body>
+
+<div class="root-container">
+
+    <div class="center"><h2>Module Page</h2></div>
+
+    <div id="navigation"><span id="link-back" onclick="goBack();">Back</span></div>
+
+    <divclass="center">
+      <button id="btn1" type="button">test1</button>
+      <button id="btn11" type="button">test11</button>
+      <button id="btn2" type="button">test2</button>
+      <button id="btn3" type="button">test3</button>
+      <button id="btn4" type="button">test4</button>
+      <button id="btn5" type="button">test5</button>
+    </div>
+
+</div>
+
+    <script type="text/javascript">
+        (function(){
+            document.getElementById("btn1").onclick = function() {
+                t1._count = 1; //可以侵入
+                t1.m1();
+            };
+            document.getElementById("btn11").onclick = function() {
+                t11._count = 11; //可以侵入
+                t11.m1();
+            };
+            document.getElementById("btn2").onclick = function() {
+                t2.m1();
+            };
+            document.getElementById("btn3").onclick = function() {
+                t3.m1();
+            };
+            document.getElementById("btn4").onclick = function() {
+                t4.m1();
+            };
+            document.getElementById("btn5").onclick = function() {
+                t5.m1();
+            };
+        })();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>json</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/base-style.css"/>
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/base-js.js"></script>
+    
+    <style type="text/css">
+      
+    </style>
+    
+    <script type="text/javascript">
+        
+    </script>
+    
+</head>
+
+<body>
+    
+<div class="root-container">
+        
+    <div class="center"><h2>Json Page</h2></div>
+    
+    <div id="navigation"><span id="link-back" onclick="goBack();">Back</span></div>
+    
+    <div><span id="msg">out put message</span></div>
+    
+    <div>
+        <button id="btn1">check type</button>
+        <button id="btn2">check object attribute</button>
+        <button id="btn3">check json to object</button>
+        <button id="btn4">check object to json</button>
+    </div>
+    
+</div>
+
+    <script type="text/javascript">
+        (function(){
+            var json_str = '{"name":"bob", "sex":"man"}';
+            var json_obj = {"name":"bob", "sex":"man"};
+            
+            $("#msg").html(json_str);
+            $("#btn1").click(function(){
+                $("#msg").html("json_str is " + typeof(json_str) + ", json_obj is " + typeof(json_obj));
+            });
+            $("#btn2").click(function(){
+                $("#msg").html("json_obj.name is " + json_obj.name);
+            });
+            $("#btn3").click(function(){
+                //var result = json_str.parseJSON(); //未实验成功
+                var result = JSON.parse(json_str);
+                // result = eval('(' + json_str + ')');
+                $("#msg").html("result is " + typeof(result) + ", result.name is " + result.name);
+            });
+            $("#btn4").click(function(){
+                //var result = json_obj.toJSONString(); //未实验成功
+                var result = JSON.stringify(json_obj);
+                $("#msg").html("result is " + typeof(result) + ", result is [" + result + "]");
+            });
+        })();
+    </script>
+    
+</body>
+
+</html>
